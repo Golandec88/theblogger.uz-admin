@@ -1,8 +1,12 @@
 import React from "react";
+import Header from '../components/header'
 
 const IndexPage: React.FC = () => {
+
     return (
-        <h1>Index page</h1>
+        <>
+            <Header title={"Index Page"}/>
+        </>
     )
 }
 

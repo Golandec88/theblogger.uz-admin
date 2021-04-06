@@ -5,27 +5,39 @@ import DefaultLayout from "./layouts/default";
 import EmptyLayout from "./layouts/empty";
 import ErrorPage from "./pages/error";
 import IndexPage from "./pages";
+import AuthPage from "./pages/auth";
 
-const Routes:React.FC = () => (
-    <BrowserRouter>
-        <Switch>
-            <Route path='/error' render={() => (
-                <EmptyLayout>
-                    <Route path='/error' component={ErrorPage} />
-                </EmptyLayout>
-            )}/>
-            <Route path='/' render={() => (
-                <DefaultLayout>
-                    <Switch>
-                        <Route path='/dashboard' component={IndexPage} />
-                        <Route path='/'>
-                            <Redirect to={{pathname: '/dashboard'}} />
-                        </Route>
-                    </Switch>
-                </DefaultLayout>
-            )}>
-            </Route>
-        </Switch>
-    </BrowserRouter>
-)
+const Routes:React.FC = () => {
+
+
+
+    return (
+        <BrowserRouter>
+            <Switch>
+                <Route path='/login' render={() => (
+                    <EmptyLayout>
+                        <Route path='/login' component={AuthPage} />
+                    </EmptyLayout>
+                )}>
+                </Route>
+                <Route path='/error' render={() => (
+                    <EmptyLayout>
+                        <Route path='/error' component={ErrorPage} />
+                    </EmptyLayout>
+                )}/>
+                <Route path='/' render={() => (
+                    <DefaultLayout>
+                        <Switch>
+                            <Route path='/dashboard' component={IndexPage} />
+                            <Route path='/'>
+                                <Redirect to={{pathname: '/dashboard'}} />
+                            </Route>
+                        </Switch>
+                    </DefaultLayout>
+                )}>
+                </Route>
+            </Switch>
+        </BrowserRouter>
+    )
+}
 export default Routes

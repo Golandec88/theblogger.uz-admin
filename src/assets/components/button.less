@@ -1,0 +1,27 @@
+&-button {
+  border-radius: @primary-border-radius !important;
+  min-width: 45px;
+  svg {
+    margin-top: -7px;
+  }
+  &.show-text-on-hover {
+    width: 45px;
+    transition: width 400ms cubic-bezier(.62, .1, .5, 1);
+    svg {
+      margin-left: -1px;
+    }
+    .app-button-text {
+      transition: opacity .3s;
+      margin-bottom: -1px;
+      opacity: 0;
+    }
+    &:hover {
+      width: 100%;
+      transition: width 400ms cubic-bezier(.62, .1, .5, 1);
+      .app-button-text {
+        opacity: 1;
+        transition: opacity 700ms, width 1ms linear 270ms, font-size 1ms linear 270ms;
+      }
+    }
+  }
+}
