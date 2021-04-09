@@ -9,7 +9,7 @@ import './assets/index.less';
 
 ReactDOM.render(
     <Provider store={configureStore}>
-        <React.StrictMode><App/></React.StrictMode>,
+        <App/>
     </Provider>,
     document.getElementById('root')
 );

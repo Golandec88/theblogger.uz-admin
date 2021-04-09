@@ -1,16 +1,13 @@
 import axios, {AxiosError, AxiosRequestConfig, AxiosResponse, Method} from 'axios';
 import NotificationCreator from "./notification-creator";
 
-export default async function request(method: Method, url: string, params?: string) : Promise<AxiosResponse | AxiosError> {
-    const parsedUrl = `https://api.exchangerate.host/${url}${params ? params : ""}`
+export default async function request(method: Method, url: string, data?: {}, params?: string ) : Promise<AxiosResponse | AxiosError> {
+    const parsedUrl = `http://92.53.105.194:88/api/${url}${params ? params : ""}`
 
     let config: AxiosRequestConfig = {
         method: method,
         url: parsedUrl,
-        proxy: {
-            host: 'https://api.exchangerate.host/',
-            port: 3001
-        }
+        data: data ? data : undefined,
     }
 
     return new Promise(function(resolve, reject) {

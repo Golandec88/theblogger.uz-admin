@@ -1,7 +1,7 @@
-
+import {IAuthState} from "./auth/types";
 
 export interface IRootState {
-
+    user: IAuthState
 }
 
 export type IteratorResult<T, TReturn = any> =

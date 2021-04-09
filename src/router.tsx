@@ -6,18 +6,17 @@ import EmptyLayout from "./layouts/empty";
 import ErrorPage from "./pages/error";
 import IndexPage from "./pages";
 import AuthPage from "./pages/auth";
+import AuthLayout from "./layouts/auth";
 
 const Routes:React.FC = () => {
-
-
 
     return (
         <BrowserRouter>
             <Switch>
                 <Route path='/login' render={() => (
-                    <EmptyLayout>
+                    <AuthLayout>
                         <Route path='/login' component={AuthPage} />
-                    </EmptyLayout>
+                    </AuthLayout>
                 )}>
                 </Route>
                 <Route path='/error' render={() => (
