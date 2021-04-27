@@ -1,8 +1,10 @@
 export interface IAuthState {
     loading: boolean,
     error: Error | boolean | string,
+    isAuth: boolean,
     userInfo: {
-        firstName: string | undefined,
-        lastName: string | undefined
+        token: string | undefined,
+        refresh_token: string | undefined,
+        profile: {}
     }
 }

@@ -1,7 +1,12 @@
-import {IAuthState} from "./auth/types";
+import {IUserState} from "./user/types";
+
 
 export interface IRootState {
-    user: IAuthState
+    auth: IAuthState,
+    user: IUserState,
+    blogger: IBloggerState,
+    advertiser: IAdvertisersState,
+    admin: IAdminState
 }
 
 export type IteratorResult<T, TReturn = any> =

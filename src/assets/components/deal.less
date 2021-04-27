@@ -1,0 +1,41 @@
+&-deal-card {
+  width: calc(50% - 20px);
+  margin: 12px 10px 10px;
+  border-radius: @primary-border-radius;
+  background: #f0f2f5;
+  position: relative;
+  .ant-card-meta {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    margin-bottom: 15px;
+    display: flex;
+  }
+  .ant-card-meta-detail > div:not(:last-child) {
+    margin-bottom: 0;
+  }
+  .status {
+    color: #fff;
+    border-radius: @primary-border-radius;
+    padding: 2px 15px;
+    position: absolute;
+    top: -10px;
+    left: 56px;
+    &-REQUESTED {
+      background: #ff6f00;
+    }
+    &-DECLINED {
+      background: red;
+    }
+    &-PROCESSING {
+      background: #3fbb8f;
+    }
+    &-ADVERTISER_CHECK {
+      background: @primary-color-advertisers;
+    }
+    &-ADVERTISER_DECLINED {
+      background: red;
+    }
+    &-DONE {
+      background: #33e733;
+    }
+  }
+}

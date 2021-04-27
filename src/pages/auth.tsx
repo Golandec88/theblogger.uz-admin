@@ -1,26 +1,55 @@
+import React, {useEffect} from 'react'
 import {LoginOutlined} from '@ant-design/icons'
 import {Button, Form, Input, Tabs} from 'antd'
-import React from 'react'
+import {useDispatch, useSelector} from "react-redux";
 import {changeAntdTheme} from "dynamic-antd-theme";
-import {authUser, registerUser} from "../store/auth/actionCreators";
-import {useDispatch} from "react-redux";
+
+import {authUser} from "../store/auth/action-creators";
+import {IAuthState} from "../store/auth/types";
+import MaskedInput from "antd-mask-input";
+import { useHistory } from 'react-router-dom';
+import request from "../plugins/axios";
+import NotificationCreator from "../plugins/notification-creator";
 
 const {TabPane} = Tabs;
 
 const AuthPage: React.FC = () => {
+    const history = useHistory()
+    const state = useSelector((store: {auth: IAuthState}) => store.auth)
 
     const generateTheme = () => changeAntdTheme('#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6))
     generateTheme()
 
     const dispatch = useDispatch()
 
-    const submitHandler: (form: {}, type: string) => void = (form, type) => {
+    const submitHandler: (form: any, type: string) => void = (form, type) => {
+        // @ts-ignore
+        const formattedUsername = form.username.match(/\d/g).join('')
+
+        localStorage.removeItem('user-token')
+        localStorage.removeItem('user-refresh-token')
+
         if(type === 'register') {
-            dispatch(registerUser(form))
+            request('POST', 'register', {
+                username: `998${formattedUsername}`,
+                password: form.password,
+                profile: {
+                    firstName: form.firstName,
+                    lastName: form.lastName
+                }
+            }).then(() => {
+                NotificationCreator('Успешная регистрация!', 'success')
+                dispatch(authUser({...form, ...{username: `998${formattedUsername}`}}))
+            })
         } else {
-            dispatch(authUser(form))
+            dispatch(authUser({...form, ...{username: `998${formattedUsername}`}}))
         }
     }
+
+    useEffect(() => {
+        if(state.isAuth && localStorage.getItem('user-token')) history.push('/')
+
+    }, [state])
 
     return (
         <section className="app-auth-form">
@@ -41,27 +70,31 @@ const AuthPage: React.FC = () => {
                             initialValues={{remember: true}}
                         >
                             <Form.Item
-                                label="Username"
+                                label="Номер"
                                 name="username"
-                                className="app-input"
+                                className="app-input reduced-label"
+                                hasFeedback={state.loading}
+                                validateStatus={state.loading ? "validating" : undefined}
                                 rules={[{required: true, message: 'Обязательное поле!'}]}
                             >
-                                <Input/>
+                                <MaskedInput addonBefore="+998" mask="( 11 ) 111 - 11 - 11" disabled={state.loading} />
                             </Form.Item>
 
                             <Form.Item
-                                label="Password"
+                                label="Пароль"
                                 name="password"
-                                className="app-input"
+                                className="app-input reduced-label"
+                                hasFeedback={state.loading}
+                                validateStatus={state.loading ? "validating" : undefined}
                                 rules={[{required: true, message: 'Обязательное поле!'}]}
                             >
-                                <Input.Password/>
+                                <Input.Password disabled={state.loading}/>
                             </Form.Item>
 
                             <Form.Item {...{
                                 wrapperCol: {span: 24},
                             }}>
-                                <Button type="primary" className="app-button submit" icon={<LoginOutlined/>} htmlType="submit">
+                                <Button disabled={state.loading} type="primary" className="app-button submit" icon={<LoginOutlined/>} htmlType="submit">
                                     Войти
                                 </Button>
                             </Form.Item>
@@ -81,43 +114,51 @@ const AuthPage: React.FC = () => {
                             initialValues={{remember: true}}
                         >
                             <Form.Item
-                                label="Username"
+                                label="Номер"
                                 name="username"
                                 className="app-input"
+                                hasFeedback={state.loading}
+                                validateStatus={state.loading ? "validating" : undefined}
                                 rules={[{required: true, message: 'Обязательное поле!'}]}
                             >
-                                <Input/>
+                                <MaskedInput addonBefore="+998" mask="( 11 ) 111 - 11 - 11" disabled={state.loading} />
                             </Form.Item>
 
                             <Form.Item
-                                label="Password"
+                                label="Пароль"
                                 name="password"
                                 className="app-input"
+                                hasFeedback={state.loading}
+                                validateStatus={state.loading ? "validating" : undefined}
                                 rules={[{required: true, message: 'Обязательное поле!'}]}
                             >
-                                <Input.Password/>
+                                <Input.Password disabled={state.loading}/>
                             </Form.Item>
 
                             <Form.Item
                                 label="Имя"
                                 name="firstName"
                                 className="app-input"
+                                hasFeedback={state.loading}
+                                validateStatus={state.loading ? "validating" : undefined}
                                 rules={[{required: true, message: 'Обязательное поле!'}]}
                             >
-                                <Input/>
+                                <Input disabled={state.loading}/>
                             </Form.Item>
 
                             <Form.Item
                                 label="Фамилия"
                                 name="lastName"
                                 className="app-input"
+                                hasFeedback={state.loading}
+                                validateStatus={state.loading ? "validating" : undefined}
                                 rules={[{required: true, message: 'Обязательное поле!'}]}
                             >
-                                <Input/>
+                                <Input disabled={state.loading}/>
                             </Form.Item>
 
                             <Form.Item>
-                                <Button type="primary" className="app-button submit" icon={<LoginOutlined/>} htmlType="submit">
+                                <Button disabled={state.loading} type="primary" className="app-button submit" icon={<LoginOutlined/>} htmlType="submit">
                                     Зарегистрироватся
                                 </Button>
                             </Form.Item>

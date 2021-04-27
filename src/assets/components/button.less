@@ -1,8 +1,32 @@
 &-button {
-  border-radius: @primary-border-radius !important;
+  border-radius: 20px !important;
   min-width: 45px;
   svg {
     margin-top: -7px;
+  }
+  &.--rounded {
+    border-radius: 50% !important;
+  }
+  &-create {
+    &.--fixed-right {
+      position: absolute;
+      right: 20px;
+      bottom: 10px;
+      width: 50px;
+      height: 50px;
+    }
+    &.show-text-on-hover {
+      &:hover {
+        width: 200px !important;
+      }
+    }
+  }
+  &.w-150px {
+    &.show-text-on-hover {
+      &:hover {
+        width: 150px !important;
+      }
+    }
   }
   &.show-text-on-hover {
     width: 45px;
@@ -23,5 +47,8 @@
         transition: opacity 700ms, width 1ms linear 270ms, font-size 1ms linear 270ms;
       }
     }
+  }
+  &-rounded {
+    border-radius: 50% !important;
   }
 }

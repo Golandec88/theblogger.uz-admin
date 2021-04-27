@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+
+  client:
+    container_name: theblogger.uz-client
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8089:80'

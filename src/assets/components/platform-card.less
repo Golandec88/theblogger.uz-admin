@@ -1,0 +1,46 @@
+&-platform-card {
+  width: calc(33% - 20px);
+  margin: 12px 10px 10px;
+  border-radius: @primary-border-radius;
+  background: #f0f2f5;
+  position: relative;
+  .ant-card-meta {
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+    display: flex;
+  }
+  .ant-card-meta-detail > div:not(:last-child) {
+    margin-bottom: 0;
+  }
+  .actions {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  .info {
+    margin-bottom: 15px;
+  }
+  .additional-info {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+    .status {
+      color: #fff;
+      border-radius: @primary-border-radius;
+      padding: 2px 15px;
+      &-1 {
+        background: #33e733;
+      }
+      &-0 {
+        background: red;
+      }
+    }
+    .subscribers {
+      margin-left: 8px;
+      background: var(--primary-color);
+      color: #fff;
+      border-radius: @primary-border-radius;
+      padding: 2px 15px;
+    }
+  }
+}

@@ -65,6 +65,7 @@
         }
       }
       .rest {
+        height: 100vh;
         & ~ defs {
           stop {
             &:first-child {
@@ -96,6 +97,26 @@
         }
       }
     }
+    &-admin {
+      .ant-menu-item {
+        &-selected {
+          color: #109ffc;
+        }
+      }
+      .rest {
+        height: 100vh;
+        & ~ defs {
+          stop {
+            &:first-child {
+              stop-color: #9b59b6;
+            }
+            &:last-child {
+              stop-color: #8e44ad;
+            }
+          }
+        }
+      }
+    }
   }
 
   .bg {
@@ -111,7 +132,7 @@
     .rest {
       fill: url('#grad2');
       width: 100%;
-      height: 100%;
+      height: 100vh;
       border-radius: @primary-border-radius;
       & ~ defs {
         stop {
@@ -144,6 +165,7 @@
     border-radius: @primary-border-radius;
     display: flex;
     flex-flow: column;
+
     hr {
       border: 1px solid white;
       z-index: 2;

@@ -1,0 +1,101 @@
+&-job {
+  background: #f0f2f5;
+  padding: 20px 30px;
+  border-radius: @primary-border-radius;
+  box-shadow: 2px 7px 5px #ccc;
+  margin-bottom: 10px;
+  width: 100%;
+  position: relative;
+  margin-top: 15px;
+  .status {
+    padding: 2px 15px;
+    color: white;
+    border-radius: @primary-border-radius;
+    &-DRAFT {
+      background: #ff6f00;
+    }
+    &-MODERATION {
+      background: @primary-color-advertisers;
+    }
+    &-MODERATION_APPROVED {
+      background: #4ace4a;
+    }
+    &-MODERATION_DECLINED {
+      background: red;
+    }
+    &-PROCESSING {
+      background: #3fbb8f;
+    }
+    &-DONE {
+      background: #33e733;
+    }
+  }
+  &:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  .color-red {
+    color: #ff0000;
+  }
+  .color-black {
+    color: black;
+    font-size: 16px;
+  }
+  .spacer {
+    margin-left: auto;
+  }
+  &-header {
+    display: flex;
+    align-items: center;
+    color: #5f5f5f;
+    .status {
+      position: absolute;
+      left: 85px;
+      top: -12px;
+    }
+    .actions {
+      position: absolute;
+      top: -15px;
+      right: 25px;
+      .action {
+        border-radius: 50%;
+        padding: 5px;
+        cursor: pointer;
+        svg {
+          width: 20px;
+          height: 19px;
+          fill: white;
+        }
+        &-remove {
+          background: #ff375a;
+        }
+        &-edit {
+          background: var(--primary-color);
+        }
+        &-send {
+          background: #4be14b;
+        }
+      }
+    }
+    .social-logo {
+      width: 50px;
+      height: 50px;
+      margin-right: 20px;
+    }
+    p {
+      margin: 0;
+    }
+  }
+  &-content {
+    margin: 15px 0;
+  }
+  &-actions {
+    display: flex;
+    align-items: center;
+    p {
+      margin: 0;
+    }
+    .ant-btn {
+      margin-right: 15px;
+    }
+  }
+}

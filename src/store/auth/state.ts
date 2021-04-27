@@ -3,9 +3,11 @@ import {IAuthState} from "./types";
 const state: IAuthState = {
     loading: false,
     error: false,
+    isAuth: false,
     userInfo: {
-        firstName: undefined,
-        lastName: undefined
+        token: undefined,
+        refresh_token: undefined,
+        profile: {}
     }
 }
 

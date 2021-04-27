@@ -2,32 +2,54 @@ import {all, call, fork, put, takeEvery} from 'redux-saga/effects'
 import {SagaIterator } from 'redux-saga';
 
 import request from '../../plugins/axios'
-import {AUTH_USER, REGISTER_USER} from "./actionTypes";
-import {authUserError, authUserSuccess, registerUserError, registerUserSuccess} from "./actionCreators";
+import {AUTH_USER, REGISTER_USER} from "./action-types";
+import {
+    authUserError,
+    authUserSuccess,
+    registerUserError,
+    registerUserSuccess
+} from "./action-creators";
 
 function* authUser(action: {payload: {}}): SagaIterator {
     try {
-        const response = yield call(request, 'POST', 'login_check', action.payload);
+        const tokens = yield call(request, 'POST', 'login_check', action.payload);
 
-        yield put(authUserSuccess(response));
-    } catch (error) {
-        yield put(authUserError(error));
+        localStorage.setItem('user-token', tokens.token)
+        localStorage.setItem('user-refresh-token', tokens.refresh_token)
+
+        const userInfo = yield call(request, 'GET', 'user')
+
+        if(userInfo.roles.find((role: string) => role === 'ROLE_ADMIN')) localStorage.setItem('user-is-admin', String(true))
+        else localStorage.setItem('user-is-admin', String(false))
+
+        localStorage.setItem('username', `${userInfo.profile.first_name} ${userInfo.profile.last_name}`)
+
+        yield put(authUserSuccess({...tokens, ...userInfo}));
+    } catch {
+        yield put(authUserError());
     }
 }
-function* registerUser(form: {}): SagaIterator {
+function* registerUser(action: {payload: any}): SagaIterator {
     try {
-        const response = yield call(request, 'POST', 'register', form);
+        yield call(request, 'POST', 'register', {
+            username: action.payload.username,
+            password: action.payload.password,
+            profile: {
+                firstName: action.payload.firstName,
+                lastName: action.payload.lastName
+            }
+        });
 
-        yield put(registerUserSuccess(response));
-    } catch (error) {
-        yield put(registerUserError(error));
+        yield put(registerUserSuccess());
+    } catch {
+        yield put(registerUserError());
     }
 }
-
 function* AuthWatcher(): SagaIterator {
     // @ts-ignore
     yield takeEvery(AUTH_USER, authUser);
-    yield takeEvery(REGISTER_USER, registerUser)
+    // @ts-ignore
+    yield takeEvery(REGISTER_USER, registerUser);
 }
 
 export default function* AuthSaga() {
