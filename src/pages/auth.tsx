@@ -4,18 +4,18 @@ import {Button, Form, Input, Tabs} from 'antd'
 import {useDispatch, useSelector} from "react-redux";
 import {changeAntdTheme} from "dynamic-antd-theme";
 
-import {authUser} from "../store/auth/action-creators";
-import {IAuthState} from "../store/auth/types";
+import {authUser} from "../store/action-creators";
 import MaskedInput from "antd-mask-input";
 import { useHistory } from 'react-router-dom';
 import request from "../plugins/axios";
 import NotificationCreator from "../plugins/notification-creator";
+import {IRootState} from "../store/types";
 
 const {TabPane} = Tabs;
 
 const AuthPage: React.FC = () => {
     const history = useHistory()
-    const state = useSelector((store: {auth: IAuthState}) => store.auth)
+    const state = useSelector((store: IRootState) => store)
 
     const generateTheme = () => changeAntdTheme('#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6))
     generateTheme()
@@ -47,9 +47,8 @@ const AuthPage: React.FC = () => {
     }
 
     useEffect(() => {
-        if(state.isAuth && localStorage.getItem('user-token')) history.push('/')
-
-    }, [state])
+        if(localStorage.getItem('user-token')) history.push('/')
+    }, [state.user])
 
     return (
         <section className="app-auth-form">

@@ -1,14 +1,10 @@
 import {Button, Form, Input, Modal} from "antd";
 import React, {useState} from "react";
 import logo from '../../static/logo-image.png'
-import {
-    FrownOutlined, SmileOutlined,
-} from "@ant-design/icons";
+import {FrownOutlined, SmileOutlined} from "@ant-design/icons";
 import {Markup} from "interweave";
-import {dispatch} from "jest-circus/build/state";
-import ModalCreator from "../../plugins/modal-creator";
 import NotificationCreator from "../../plugins/notification-creator";
-import {getOffers} from "../../store/admin/action-creators";
+import {getAdminOffers} from "../../store/action-creators";
 import {useDispatch} from "react-redux";
 import request from "../../plugins/axios";
 
@@ -82,7 +78,7 @@ const Offer :React.FC<IProps> = (props) => {
                                 status: 'MODERATION_DECLINED'
                             }).then(() => {
                                 reasonForm.resetFields();
-                                dispatch(getOffers())
+                                dispatch(getAdminOffers())
                                 setReasonModalModel(false)
                                 NotificationCreator('Успешно!', 'success')
                             })
@@ -115,7 +111,7 @@ const Offer :React.FC<IProps> = (props) => {
                     request("PUT", 'admin/offer/moderation/' + props.id, {
                         status: 'MODERATION_APPROVED'
                     }).then(() => {
-                        dispatch(getOffers())
+                        dispatch(getAdminOffers())
                         setConfirmModalModel(false)
                         NotificationCreator('Успешно!', 'success')
                     })

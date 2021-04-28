@@ -1,12 +1,17 @@
-import {IUserState} from "./user/types";
-
+import {AxiosError} from "axios";
 
 export interface IRootState {
-    auth: IAuthState,
-    user: IUserState,
-    blogger: IBloggerState,
-    advertiser: IAdvertisersState,
-    admin: IAdminState
+    socialNetworks: [],
+    adTypes: [],
+    adFormats: [],
+    adCategories: [],
+    cities: [],
+    loading: boolean,
+    error: Error,
+    offers: ResponseList,
+    deals: ResponseList,
+    platforms: ResponseList,
+    user: {}
 }
 
 export type IteratorResult<T, TReturn = any> =
@@ -29,3 +34,7 @@ export interface Generator<T = unknown, TReturn = any, TNext = unknown>
     throw(e: any): IteratorResult<T, TReturn>;
     [Symbol.iterator](): Generator<T, TReturn, TNext>;
 }
+
+export type Error = {code: number, message: string} | boolean
+export type Action = {type: string, value: any}
+export type ResponseList = {items: [], pagination: {}}

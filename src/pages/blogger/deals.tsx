@@ -8,7 +8,7 @@ import {IssuesCloseOutlined, PlusOutlined} from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "../../store/types";
 import { useHistory } from "react-router-dom";
-import {getDeals} from "../../store/blogger/action-creators";
+import {getBloggerDeals} from "../../store/action-creators";
 
 const DealsPage: React.FC = () => {
 
@@ -17,7 +17,7 @@ const DealsPage: React.FC = () => {
     const history = useHistory()
 
     useEffect(() => {
-        dispatch(getDeals())
+        dispatch(getBloggerDeals())
     }, [])
 
     return (
@@ -25,9 +25,9 @@ const DealsPage: React.FC = () => {
             <Header Ctx={Ctx} title={"Сделки"}/>
             <section className="overflow-content">
                 <div style={{flexFlow: "wrap", alignItems: 'flex-start'}}>
-                    {state.blogger.loading ? <PreLoader/> :
-                        state.blogger.deals.list.length ?
-                            state.blogger.deals.list.map((item: any) => <Deal key={`key-#${item.id}`} data={item} />) :
+                    {state.loading ? <PreLoader/> :
+                        state.deals.items.length ?
+                            state.deals.items.map((item: any) => <Deal key={`key-#${item.id}`} data={item} />) :
                             <div className="app-card">
                                 <h4>У вас не заключенно ни одной сделки</h4>
                                 <p>Вы можете посылать заявки на выполнение в "Ленте заданий"</p>

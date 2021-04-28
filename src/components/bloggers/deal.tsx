@@ -1,21 +1,18 @@
-import React, {useState} from "react";
-import {Avatar, Button, Card, Form, Input, Modal} from "antd";
-// @ts-ignore
+import React from "react";
+import {Avatar, Button, Card} from "antd";
 import logo from "../../static/logo-image.png";
-import {CheckCircleFilled, CloseCircleOutlined, EditOutlined} from "@ant-design/icons";
+import {CheckCircleFilled} from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import {Markup} from "interweave";
 import ModalCreator from "../../plugins/modal-creator";
 import request from "../../plugins/axios";
 import NotificationCreator from "../../plugins/notification-creator";
 import {useDispatch} from "react-redux";
-import {getDeals} from "../../store/blogger/action-creators";
+import {getBloggerDeals} from "../../store/action-creators";
 
 const BloggerDeal: React.FC<{data: any}> = ({data}) => {
 
     const dispatch = useDispatch()
-    const [reasonForm] = Form.useForm()
-    const [modalReasonModel, setReasonModalModel] = useState(false)
 
     const getStatusText = (status: string) => {
         switch (status) {
@@ -79,7 +76,7 @@ const BloggerDeal: React.FC<{data: any}> = ({data}) => {
                                         request('GET', `blogger/deal/${data.id}/check`)
                                             .then(() => {
                                                 NotificationCreator('Успешно!', 'success', 'Ждите ответа рекламодателя')
-                                                dispatch(getDeals())
+                                                dispatch(getBloggerDeals())
                                             })
                                     }
                                 })}>

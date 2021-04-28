@@ -6,7 +6,7 @@ import {IRootState} from "../../store/types";
 import {Button} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
-import {getOffers} from "../../store/advertiser/action-creatros";
+import {getAdvertiserOffers, getCities} from "../../store/action-creators";
 import PreLoader from "../../components/pre-loader";
 import ModalCreator from "../../plugins/modal-creator";
 import request from "../../plugins/axios";
@@ -21,8 +21,10 @@ const OffersPage: React.FC = () => {
     const layoutCtx: { reload: boolean, setReload: Dispatch<boolean> } = useContext(Ctx)
 
     useEffect(() => {
-        dispatch(getOffers())
-    }, [dispatch, layoutCtx.reload])
+        dispatch(getAdvertiserOffers())
+    }, [layoutCtx.reload])
+
+    useEffect(() => console.log(state), [state])
 
     const handleCardAction = (id: number | string, actionName: string) => {
         switch (actionName) {
@@ -36,7 +38,7 @@ const OffersPage: React.FC = () => {
                         request('GET', `offer/${id}/moderation`)
                             .then(() => {
                                 NotificationCreator('Успешно отправленно!', 'success', 'Ваше задание успешно отправленно на проверку, ждите результата модерации')
-                                dispatch(getOffers())
+                                dispatch(getAdvertiserOffers())
                             })
                     },
                     onCancel: () => {},
@@ -75,9 +77,9 @@ const OffersPage: React.FC = () => {
             <Header Ctx={Ctx} title={"Мои задания"}/>
             <section className="overflow-content">
                 <div>
-                    {state.advertiser.loading ? <PreLoader /> :
-                        state.advertiser.offers.list.length ?
-                            state.advertiser.offers.list.map((offer: any) => <Offer key={offer.id}  data={{...offer}} handleAction={handleCardAction} />):
+                    {state.loading ? <PreLoader /> :
+                        state.offers.items.length ?
+                            state.offers.items.map((offer: any) => <Offer key={offer.id}  data={{...offer}} handleAction={handleCardAction} />):
                             <div className="app-card">
                                 <h4>У вас нет ни одного задания</h4>
                                 <p>Вы можете создать новое задание для выполнения</p>
@@ -91,7 +93,7 @@ const OffersPage: React.FC = () => {
                             </div>
                     }
                 </div>
-                {state.advertiser.offers.list.length ?
+                {state.offers.items.length ?
                     <Button
                         className="app-button app-button-create --fixed-right --rounded"
                         size="large"

@@ -1,5 +1,5 @@
 import React, {Dispatch, JSXElementConstructor, ReactElement, useEffect, useState} from "react";
-import {Layout, Switch, Button} from "antd";
+import {Layout, Switch, Button, Modal, Form, Input} from "antd";
 import {LogoutOutlined, ToolOutlined, UserOutlined} from '@ant-design/icons';
 import {changeAntdTheme} from 'dynamic-antd-theme';
 import {Transition} from 'react-transition-group'
@@ -7,9 +7,8 @@ import {Transition} from 'react-transition-group'
 import logo from '../static/logo.png'
 import Menu from '../components/menu'
 import { useHistory } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {IRootState} from "../store/types";
-import ModalCreator from "../plugins/modal-creator";
 import request from "../plugins/axios";
 
 const {Sider, Content} = Layout
@@ -40,11 +39,11 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
     const [role, switchRole] = useState<string>('blogger')
     const [check, setCheck] = useState(false)
     const [reload, setReload] = useState(false)
+    const [modalModel, setModalModel] = useState(false)
     const [burgerStatus, switchMenu] = useState<'opened' | 'closed' | unknown>()
     const [notificationsStatus, switchNotifications] = useState<'opened' | 'closed' | unknown>()
     const state = useSelector((state: IRootState) => state)
-    const dispatch = useDispatch()
-    let history = useHistory()
+    const history = useHistory()
 
     const onChange = () => {
         localStorage.setItem('user-role', localStorage.getItem('user-role') === 'advertiser' ? 'blogger' : 'advertiser')
@@ -67,32 +66,14 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
     },[role])
 
     useEffect(() => {
-        if((typeof state.blogger.error === "object" && state.blogger.error.code === 401) || (typeof state.advertiser.error === "object" && state.advertiser.error.code === 401)) {
-            ModalCreator({
-                title: 'Ваша сессия была завершенна',
-                content: 'Хотите продлить?',
-                okText: 'Продлить',
-                cancelText: 'Выйти',
-                onOk: () => {
-                    request('POST', 'token/refresh', {refresh_token: localStorage.getItem('user-refresh-token')})
-                        .then((res) => {
-                            //@ts-ignore
-                            localStorage.setItem('user-token', res.token)
-                            //@ts-ignore
-                            localStorage.setItem('user-refresh-token', res.refresh_token)
-                            console.log(state.advertiser.error)
-                            setReload(!reload)
-                        })
-                },
-                onCancel: () => logout()
-            })
+        if((typeof state.error === "object" && state.error.code === 401) && !modalModel) {
+            setModalModel(true)
         }
-    }, [state.blogger.error, state.advertiser.error, state.user.error, dispatch])
+    }, [state.error])
 
     if(!localStorage.getItem('user-token')) {
         history.push('/login')
     }
-
     changeAntdTheme(role === 'advertiser' ? '#ffad34' : '#109ffc');
 
     return (
@@ -165,6 +146,31 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
             <Sider className={`app-notifications ${notificationsStatus}`}>
                 notifications
             </Sider>
+            <Modal
+                className="app-modal"
+                visible={modalModel}
+                title="Ваша сессия была завершенна"
+                okText="Продлить"
+                cancelText="Выйти"
+                onOk={() => {
+                    request('POST', 'token/refresh', {refresh_token: localStorage.getItem('user-refresh-token')})
+                        .then((res) => {
+                            //@ts-ignore
+                            localStorage.setItem('user-token', res.token)
+                            //@ts-ignore
+                            localStorage.setItem('user-refresh-token', res.refresh_token)
+                            setReload(!reload)
+                            setModalModel(false)
+                        })}}
+                onCancel={() => {
+                    setModalModel(false)
+                    logout()
+                }}
+                okButtonProps={{className: "app-button"}}
+                cancelButtonProps={{className: "app-button"}}
+            >
+                <p className="mb-0">Хотите продлить?</p>
+            </Modal>
         </Layout>
     )
 }

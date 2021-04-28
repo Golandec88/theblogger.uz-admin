@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from "react";
 import Header from "../../components/header";
 
-import {Button, Form, Input, Select} from 'antd';
+import {Button, Select} from 'antd';
 import {CheckCircleOutlined} from "@ant-design/icons";
 import CreatePlatforms from "../../components/bloggers/create-platforms";
 import {useDispatch, useSelector} from "react-redux";
-import {IBloggerState} from "../../store/blogger/types";
-import {getSocialNetworks} from "../../store/blogger/action-creators";
+import {getSocialNetworks} from "../../store/action-creators";
 import {Ctx} from "../../layouts/default";
+import {IRootState} from "../../store/types";
 
 const { Option } = Select;
 
@@ -16,11 +16,11 @@ const PlatformCreatePage: React.FC = () => {
     const [selected, select] = useState(false)
     const [selectedVal, selectVal] = useState<string>('Telegram')
     const dispatch = useDispatch()
-    const socialNetworks = useSelector((state: { blogger: IBloggerState }) => state.blogger.socialNetworks)
+    const socialNetworks = useSelector((state: IRootState) => state.socialNetworks)
 
     useEffect(() => {
         dispatch(getSocialNetworks())
-    }, [dispatch])
+    }, [])
 
     return (
         <>

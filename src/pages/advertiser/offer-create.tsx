@@ -6,14 +6,14 @@ import {CheckCircleFilled} from "@ant-design/icons";
 import {useDispatch, useSelector} from "react-redux";
 import moment from 'moment';
 
-import Header from '../../components/header'
-import TextEditor from "../../components/text-editor";
 import data from './fields-data.json'
 import request from "../../plugins/axios";
 import NotificationCreator from "../../plugins/notification-creator";
-import PreLoader from "../../components/pre-loader";
 import {Ctx} from "../../layouts/default";
-import {getAdInfo} from "../../store/user/action-creators";
+import Header from '../../components/header'
+import TextEditor from "../../components/text-editor";
+import PreLoader from "../../components/pre-loader";
+import {getAdInfo} from "../../store/action-creators";
 import {IRootState} from "../../store/types";
 
 const { Option } = Select;
@@ -34,7 +34,7 @@ interface IForm {
 }
 
 const JobCreatePage: React.FC = () => {
-    const adInfo = useSelector((state: IRootState) => state.user)
+    const adInfo = useSelector((state: IRootState) => state)
 
     const dispatch = useDispatch()
     const history = useHistory()
@@ -105,7 +105,7 @@ const JobCreatePage: React.FC = () => {
                 })
         }
 
-    }, [dispatch, id])
+    }, [id])
 
     return (
         <>

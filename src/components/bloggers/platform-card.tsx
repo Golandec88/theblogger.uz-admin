@@ -4,10 +4,9 @@ import {Avatar, Button, Card, Form, Input, Modal, Select} from "antd";
 import logo from "../../static/logo-image.png"
 import {EditOutlined} from "@ant-design/icons";
 import request from "../../plugins/axios";
-import {getOffers} from "../../store/admin/action-creators";
 import NotificationCreator from "../../plugins/notification-creator";
 import {useDispatch} from "react-redux";
-import {getPlatforms} from "../../store/blogger/action-creators";
+import {getPlatforms} from "../../store/action-creators";
 const { Meta } = Card
 const { Option } = Select
 
@@ -24,9 +23,7 @@ type IProps = {
         created_at: string,
         updated_at: string
     },
-    cities: {
-        items: []
-    }
+    cities: []
 }
 
 const PlatformCard: React.FC<IProps> = ({data, cities}) => {
@@ -55,9 +52,10 @@ const PlatformCard: React.FC<IProps> = ({data, cities}) => {
                     </span>
                 </div>
                 <div className="info">
-                    <p className="mb-1">Город: <b>{cities ? cities.items.map((item: any) => {
-                        return item.id === data.city_id ? item.name : ""
-                    }) : cities}</b></p>
+                    <p className="mb-1">Город: <b>{cities ? cities.map((item: any) => {
+                            return item.id === data.city_id ? item.name : ""
+                        }) : cities}</b>
+                    </p>
                     <p className="mb-1">Созданно: <b>{new Date(data.created_at).toLocaleString('ru', {year: 'numeric',month: 'long',day: 'numeric'})}</b></p>
                     <p className="mb-1">Обновленно: <b>{new Date(data.updated_at).toLocaleString('ru', {year: 'numeric',month: 'long',day: 'numeric'})}</b></p>
                 </div>
@@ -109,7 +107,7 @@ const PlatformCard: React.FC<IProps> = ({data, cities}) => {
                         rules={[{ required: true, message: 'Выберите город' }]}
                     >
                         <Select className="app-select">
-                            {cities.items.map((item: any) =>
+                            {cities.map((item: any) =>
                                 <Option key={`#key-${item.id}`} value={item.id} children={<span>{item.name}</span>}/>
                             )}
                         </Select>

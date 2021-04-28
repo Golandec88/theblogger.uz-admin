@@ -5,7 +5,7 @@ import {PlusOutlined} from "@ant-design/icons";
 import {IRootState} from "../../store/types";
 import {useDispatch, useSelector} from "react-redux";
 import { useHistory } from "react-router-dom";
-import {getCities, getPlatforms} from "../../store/blogger/action-creators";
+import {getCities, getPlatforms} from "../../store/action-creators";
 import {Ctx} from "../../layouts/default";
 import PreLoader from "../../components/pre-loader";
 import PlatformCard from "../../components/bloggers/platform-card";
@@ -27,9 +27,9 @@ const PlatformsPage: React.FC = () => {
             <Header Ctx={Ctx} title={"Мои площадки"}/>
             <section className="overflow-content">
                 <div style={{flexFlow: "wrap", alignItems: 'flex-start'}}>
-                    {state.blogger.loading ? <PreLoader /> :
-                        state.blogger.platforms.list.length ?
-                            state.blogger.platforms.list.map((item: any) => <PlatformCard key={`key-#${item.id}`} data={item} cities={state.blogger.cities}/>) :
+                    {state.loading ? <PreLoader /> :
+                        state.platforms.items.length ?
+                            state.platforms.items.map((item: any) => <PlatformCard key={`key-#${item.id}`} data={item} cities={state.cities}/>) :
                             (<div className="app-card">
                                 <h4>У вас не зарегестрированно площадок</h4>
                                 <p>Добавьте свои площадки из соц. сетей, для того чтобы принимать рекламные заявки от рекламодателей
@@ -44,7 +44,7 @@ const PlatformsPage: React.FC = () => {
                             </div>)
                     }
                 </div>
-                {state.blogger.platforms.list.length ?
+                {state.platforms.items.length ?
                     <Button
                         className="app-button app-button-create --fixed-right --rounded"
                         size="large"

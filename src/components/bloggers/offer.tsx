@@ -5,8 +5,8 @@ import {CheckCircleOutlined, EyeInvisibleOutlined} from "@ant-design/icons";
 import {Markup} from "interweave";
 import request from "../../plugins/axios";
 import NotificationCreator from "../../plugins/notification-creator";
-import {useDispatch} from "react-redux";
-import {getOffers} from "../../store/blogger/action-creators";
+import {useDispatch, useSelector} from "react-redux";
+import {getBloggerOffers, getCities} from "../../store/action-creators";
 import ModalCreator from "../../plugins/modal-creator";
 import { useHistory } from "react-router-dom";
 
@@ -25,7 +25,7 @@ interface IProps {
 }
 
 const Offer :React.FC<IProps> = (props) => {
-
+    const state = useSelector(store => store)
     const dispatch = useDispatch()
     const history = useHistory()
 
@@ -61,7 +61,7 @@ const Offer :React.FC<IProps> = (props) => {
                     <h3>{props.data.short_description}</h3>
                     <Markup content={props.data.full_description}/>
                     <b>Ссылка на рекламный продукт: </b>
-                    <a target="_blank" href={props.data.ad_page_link}>
+                    <a target="_blank" href={`https://${props.data.ad_page_link}`}>
                         {props.data.ad_page_link}
                     </a>
                 </div>
@@ -87,7 +87,7 @@ const Offer :React.FC<IProps> = (props) => {
                                     request('GET', `blogger/offer/${props.data.id}/hide`)
                                         .then(() => {
                                             NotificationCreator('Успешно!', 'success')
-                                            dispatch(getOffers())
+                                            dispatch(getBloggerOffers())
                                         })
                                 }
                             })
@@ -111,7 +111,7 @@ const Offer :React.FC<IProps> = (props) => {
                             request("POST", `blogger/offer/${props.data.id}/request`, value)
                                 .then(() => {
                                     form.resetFields();
-                                    dispatch(getOffers())
+                                    dispatch(getBloggerOffers())
                                     setModalModel(false)
                                     NotificationCreator('Успешно!', 'success')
                             })

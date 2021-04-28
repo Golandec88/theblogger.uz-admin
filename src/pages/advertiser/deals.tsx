@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import Header from '../../components/header'
 import {Ctx} from "../../layouts/default";
 import {useDispatch, useSelector} from "react-redux";
-import {getDeals} from "../../store/advertiser/action-creatros";
+import {getAdvertiserDeals} from "../../store/action-creators";
 import {IRootState} from "../../store/types";
 import PreLoader from "../../components/pre-loader";
 import Deal from "../../components/advertisers/deal"
@@ -17,7 +17,7 @@ const DealsPage: React.FC = () => {
     const history = useHistory()
 
     useEffect(() => {
-        dispatch(getDeals())
+        dispatch(getAdvertiserDeals())
     }, [])
 
     return (
@@ -25,9 +25,9 @@ const DealsPage: React.FC = () => {
             <Header Ctx={Ctx} title={"Сделки"}/>
             <section className="overflow-content">
                 <div style={{flexFlow: "wrap", alignItems: 'flex-start'}}>
-                    {state.advertiser.loading ? <PreLoader/> :
-                        state.advertiser.deals.list.length ?
-                            state.advertiser.deals.list.map((item: any) => <Deal key={`key-#${item.id}`} data={item} />) :
+                    {state.loading ? <PreLoader/> :
+                        state.deals.items.length ?
+                            state.deals.items.map((item: any) => <Deal key={`key-#${item.id}`} data={item} />) :
                             <div className="app-card">
                                 <h4>У вас не заключенно ни одной сделки</h4>
                                 <p>Вы можете создать задание для выполнения</p>

@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import {Avatar, Button, Card, Form, Input, Modal} from "antd";
 import logo from "../../static/logo-image.png";
-import {CheckCircleFilled, CloseCircleOutlined, EditOutlined} from "@ant-design/icons";
+import {CheckCircleFilled, CloseCircleOutlined} from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
 import {Markup} from "interweave";
 import ModalCreator from "../../plugins/modal-creator";
 import request from "../../plugins/axios";
 import NotificationCreator from "../../plugins/notification-creator";
-import {getDeals} from "../../store/advertiser/action-creatros";
+import {getAdvertiserDeals} from "../../store/action-creators";
 import {useDispatch} from "react-redux";
 
 const AdvertiserDeal: React.FC<{data: any}> = ({data}) => {
@@ -79,7 +79,7 @@ const AdvertiserDeal: React.FC<{data: any}> = ({data}) => {
                                                 request('GET', `advertiser/deal/${data.id}/approve`)
                                                     .then(() => {
                                                         NotificationCreator('Успешно!', 'success', 'Ждите ответа блоггера')
-                                                        dispatch(getDeals())
+                                                        dispatch(getAdvertiserDeals())
                                                     })
                                             }
                                         })}>
@@ -101,7 +101,7 @@ const AdvertiserDeal: React.FC<{data: any}> = ({data}) => {
                                             request('GET', `advertiser/deal/${data.id}/done`)
                                                 .then(() => {
                                                     NotificationCreator('Успешно!', 'success', 'Успешно!')
-                                                    dispatch(getDeals())
+                                                    dispatch(getAdvertiserDeals())
                                                 })
                                         }
                                     })}>
@@ -125,7 +125,7 @@ const AdvertiserDeal: React.FC<{data: any}> = ({data}) => {
                         .then(value => {
                             request("POST", `advertiser/deal/${data.id}/decline`, value).then(() => {
                                 reasonForm.resetFields();
-                                dispatch(getDeals())
+                                dispatch(getAdvertiserDeals())
                                 setReasonModalModel(false)
                                 NotificationCreator('Принято, спасибо!', 'success')
                             })

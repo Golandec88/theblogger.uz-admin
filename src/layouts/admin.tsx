@@ -1,19 +1,14 @@
 import React, {Dispatch, JSXElementConstructor, ReactElement, useEffect, useState} from "react";
-import {Layout, Switch, Button} from "antd";
-import {
-    LogoutOutlined,
-    SettingOutlined,
-    ToolOutlined, UserOutlined,
-} from '@ant-design/icons';
+import {Layout, Button, Modal} from "antd";
+import {LogoutOutlined, ToolOutlined} from '@ant-design/icons';
 import {changeAntdTheme} from 'dynamic-antd-theme';
 import {Transition} from 'react-transition-group'
 
 import logo from '../static/logo.png'
 import Menu from '../components/menu'
 import { useHistory } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {IRootState} from "../store/types";
-import ModalCreator from "../plugins/modal-creator";
 import request from "../plugins/axios";
 
 const {Sider, Content} = Layout
@@ -45,34 +40,20 @@ const AdminLayout :React.FC<IProps> = ({children}) => {
     const [burgerStatus, switchMenu] = useState<'opened' | 'closed' | unknown>()
     const [notificationsStatus, switchNotifications] = useState<'opened' | 'closed' | unknown>()
     const state = useSelector((state: IRootState) => state)
-    const dispatch = useDispatch()
+    const [modalModel, setModalModel] = useState(false)
     let history = useHistory()
 
     const logout = () => {
         history.push('/login')
     }
 
+
+
     useEffect(() => {
-        if(typeof state.admin.error === "object" && state.admin.error.code === 401) {
-            ModalCreator({
-                title: 'Ваша сессия была завершенна',
-                content: 'Хотите продлить?',
-                okText: 'Продлить',
-                cancelText: 'Выйти',
-                onOk: () => {
-                    request('POST', 'token/refresh', {refresh_token: localStorage.getItem('user-refresh-token')})
-                        .then((res) => {
-                            //@ts-ignore
-                            localStorage.setItem('user-token', res.token)
-                            //@ts-ignore
-                            localStorage.setItem('user-refresh-token', res.refresh_token)
-                            setReload(!reload)
-                        })
-                },
-                onCancel: () => logout()
-            })
+        if((typeof state.error === "object" && state.error.code === 401) && !modalModel) {
+            setModalModel(true)
         }
-    }, [state.admin.error, dispatch])
+    }, [state.error])
 
     if(!localStorage.getItem('user-token')) {
         history.push('/login')
@@ -136,6 +117,31 @@ const AdminLayout :React.FC<IProps> = ({children}) => {
             <Sider className={`app-notifications ${notificationsStatus}`}>
                 notifications
             </Sider>
+            <Modal
+                className="app-modal"
+                visible={modalModel}
+                title="Ваша сессия была завершенна"
+                okText="Продлить"
+                cancelText="Выйти"
+                onOk={() => {
+                    request('POST', 'token/refresh', {refresh_token: localStorage.getItem('user-refresh-token')})
+                        .then((res) => {
+                            //@ts-ignore
+                            localStorage.setItem('user-token', res.token)
+                            //@ts-ignore
+                            localStorage.setItem('user-refresh-token', res.refresh_token)
+                            setReload(!reload)
+                            setModalModel(false)
+                        })}}
+                onCancel={() => {
+                    setModalModel(false)
+                    logout()
+                }}
+                okButtonProps={{className: "app-button"}}
+                cancelButtonProps={{className: "app-button"}}
+            >
+                <p className="mb-0">Хотите продлить?</p>
+            </Modal>
         </Layout>
     )
 }

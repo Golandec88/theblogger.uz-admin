@@ -1,17 +1,17 @@
 import {all, fork} from "redux-saga/effects";
-import AuthSaga from "./auth/saga";
-import BloggerSaga from "./blogger/saga";
-import AdvertisersSaga from "./advertiser/saga";
-import AdminSaga from "./admin/saga"
-import UserSaga from "./user/saga";
+import OthersSaga from "./sagas/others";
+import AuthSaga from "./sagas/auth";
+import OffersSaga from "./sagas/offers";
+import DealsSaga from "./sagas/deals";
+import PlatformsSaga from "./sagas/platforms";
 
 const RootSaga = function* () {
     yield all([
         fork(AuthSaga),
-        fork(UserSaga),
-        fork(BloggerSaga),
-        fork(AdvertisersSaga),
-        fork(AdminSaga)
+        fork(OffersSaga),
+        fork(DealsSaga),
+        fork(PlatformsSaga),
+        fork(OthersSaga),
     ]);
 }
 export default RootSaga
