@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Col, Form, Input, Row, Select, Slider, Switch, DatePicker} from "antd";
+import {Button, Col, Form, Input, Row, Select, Slider, Switch, DatePicker, InputNumber} from "antd";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import {CheckCircleFilled} from "@ant-design/icons";
@@ -13,7 +13,7 @@ import {Ctx} from "../../layouts/default";
 import Header from '../../components/header'
 import TextEditor from "../../components/text-editor";
 import PreLoader from "../../components/pre-loader";
-import {getAdInfo} from "../../store/action-creators";
+import {getAdInfo, getSocialNetworks} from "../../store/action-creators";
 import {IRootState} from "../../store/types";
 
 const { Option } = Select;
@@ -34,7 +34,7 @@ interface IForm {
 }
 
 const JobCreatePage: React.FC = () => {
-    const adInfo = useSelector((state: IRootState) => state)
+    const state = useSelector((state: IRootState) => state)
 
     const dispatch = useDispatch()
     const history = useHistory()
@@ -67,9 +67,9 @@ const JobCreatePage: React.FC = () => {
         }
     }
     const sendForm = () => {
-        // @ts-ignore
-        delete form.ad_categories
-        request('POST', 'advertiser/offer', form)
+        const url = id ? 'advertiser/offer/' + id : 'advertiser/offer'
+
+        request(id ? 'PUT' : 'POST', url, form)
             .then(() => {
                 NotificationCreator('Успешно созданно!','success', 'Вы увидите своё задание в списке')
                 history.go(-1)
@@ -78,6 +78,7 @@ const JobCreatePage: React.FC = () => {
 
     useEffect(() => {
         dispatch(getAdInfo())
+        dispatch(getSocialNetworks())
         if(id) {
             setLoading(true)
             request('GET', 'advertiser/offer/' + id)
@@ -90,21 +91,28 @@ const JobCreatePage: React.FC = () => {
                         ad_type: res.ad_type_id,
                         // @ts-ignore
                         ad_format: res.ad_format_id,
+                        // @ts-ignore
+                        deadline: new Date(res.deadline),
+                        // @ts-ignore
+                        subscribers_count: res.subscribers_count,
                         ...{...res}
                     })
                     setForm({
-                        ...form, ...{
+                        ...valForm.getFieldsValue(), ...{
                             // @ts-ignore
-                            'social_network': res.social_network_id,
+                            social_network: res.social_network_id,
                             // @ts-ignore
-                            'ad_type': res.ad_type_id,
+                            ad_type: res.ad_type_id,
                             // @ts-ignore
-                            'ad_format': res.ad_format_id
+                            ad_format: res.ad_format_id,
+                            // @ts-ignore
+                            deadline: new Date(res.deadline),
+                            // @ts-ignore
+                            subscribers_count: res.subscribers_count,
                         }
                     })
                 })
         }
-
     }, [id])
 
     return (
@@ -140,7 +148,7 @@ const JobCreatePage: React.FC = () => {
                                                         return handleChange(val, 'social_network');
                                                     }
                                                 }>
-                                                {adInfo.socialNetworks.map(item =>
+                                                {state.socialNetworks.map(item =>
                                                     //@ts-ignore
                                                     <Option key={`#key-${item.id}`}  value={item.id} children={<span>{item.description}</span>}/>
                                                 )}
@@ -165,7 +173,7 @@ const JobCreatePage: React.FC = () => {
                                                     return handleChange(val, 'ad_type')
                                                 }}
                                             >
-                                                {adInfo.adTypes.map(item =>
+                                                {state.adTypes.map(item =>
                                                     // @ts-ignore
                                                     item.social_network_id === form.social_network ?
                                                         // @ts-ignore
@@ -173,9 +181,9 @@ const JobCreatePage: React.FC = () => {
                                                 )}
                                             </Select>
                                         </Form.Item>
-                                        {getTexts(form.ad_type, adInfo.adTypes.length ?
+                                        {getTexts(form.ad_type, state.adTypes.length ?
                                             // @ts-ignore
-                                            adInfo.adTypes.map(item => item.social_network_id === form.social_network ? item.description : "") : []
+                                            state.adTypes.map(item => item.social_network_id === form.social_network ? item.description : "") : []
                                         )}
                                     </Col>
                                     <Col lg={8} className="mb-0">
@@ -191,7 +199,7 @@ const JobCreatePage: React.FC = () => {
                                                 disabled={!form.ad_type}
                                                 onChange={val => handleChange(val, 'ad_format')}
                                             >
-                                                {adInfo.adFormats.map(item =>
+                                                {state.adFormats.map(item =>
                                                     // @ts-ignore
                                                     item.ad_type_id === form.ad_type ?
                                                         // @ts-ignore
@@ -199,9 +207,9 @@ const JobCreatePage: React.FC = () => {
                                                 )}
                                             </Select>
                                         </Form.Item>
-                                        {getTexts(form.ad_format, adInfo.adFormats.length ?
+                                        {getTexts(form.ad_format, state.adFormats.length ?
                                             // @ts-ignore
-                                            adInfo.adFormats.map(item => item.ad_type_id === form.ad_type ? item.description : "") : undefined
+                                            state.adFormats.map(item => item.ad_type_id === form.ad_type ? item.description : "") : undefined
                                         )}
                                     </Col>
                                 </Row>
@@ -220,7 +228,7 @@ const JobCreatePage: React.FC = () => {
                                                 mode={"multiple"}
                                                 onChange={val => handleChange(val, 'ad_categories')}
                                             >
-                                                {adInfo.adCategories ? adInfo.adCategories.map(
+                                                {state.adCategories ? state.adCategories.map(
                                                     // @ts-ignore
                                                     item => <Option key={`#key-${item.id}`} value={item.id}>{item.title}</Option>
                                                 ) : ""}
@@ -303,13 +311,13 @@ const JobCreatePage: React.FC = () => {
                                 <hr/>
                                 <Row>
                                     <Col lg={24}>
-                                <span>Количество подписчиков блогера:
-                                    <b>
-                                        {form.subscribers_count === 100000 ? ` ${form.subscribers_count} и выше` :
-                                            form.subscribers_count === 0 ? ' Любое' :
-                                                ` ${form.subscribers_count}`}
-                                    </b>
-                                </span>
+                                        <span>Количество подписчиков блогера:
+                                            <b>
+                                                {form.subscribers_count === 100000 ? ` ${form.subscribers_count} и выше` :
+                                                    form.subscribers_count === 0 ? ' Любое' :
+                                                        ` ${form.subscribers_count}`}
+                                            </b>
+                                        </span>
                                         <Slider
                                             max={100000}
                                             marks={{0: 0, 5000:5000, 10000: 10000, 35000: 35000, 50000: 50000, 75000: 75000, 100000: 10000}}
@@ -353,9 +361,13 @@ const JobCreatePage: React.FC = () => {
                                             rules={[{required: true, message: 'Укажите бюджет'}]}
                                             className="app-input"
                                         >
-                                            <Input
+                                            <InputNumber
+                                                className="w-100"
                                                 value={form.budget}
-                                                onChange={val => handleChange(val.target.value, 'budget')}
+                                                formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                                // @ts-ignore
+                                                parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                                                onChange={val => handleChange(val, 'budget')}
                                             />
                                         </Form.Item>
                                     </Col>
@@ -363,7 +375,7 @@ const JobCreatePage: React.FC = () => {
                                 <hr/>
                                 <Form.Item>
                                     <Button icon={<CheckCircleFilled />} className="app-button" type="primary" htmlType="submit">
-                                        Создать
+                                        {id ? 'Применить изменения' : 'Создать'}
                                     </Button>
                                 </Form.Item>
                             </Form>

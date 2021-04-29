@@ -7,9 +7,10 @@ import {Transition} from 'react-transition-group'
 import logo from '../static/logo.png'
 import Menu from '../components/menu'
 import { useHistory } from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "../store/types";
 import request from "../plugins/axios";
+import {setError} from "../store/action-creators";
 
 const {Sider, Content} = Layout
 
@@ -44,6 +45,7 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
     const [notificationsStatus, switchNotifications] = useState<'opened' | 'closed' | unknown>()
     const state = useSelector((state: IRootState) => state)
     const history = useHistory()
+    const dispatch = useDispatch()
 
     const onChange = () => {
         localStorage.setItem('user-role', localStorage.getItem('user-role') === 'advertiser' ? 'blogger' : 'advertiser')
@@ -54,6 +56,8 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
     }
 
     const logout = () => {
+        localStorage.removeItem('user-token')
+        dispatch(setError(false))
         history.push('/login')
     }
 

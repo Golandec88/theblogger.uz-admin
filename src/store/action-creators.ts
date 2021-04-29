@@ -84,8 +84,8 @@ export const setSocialNetworks = (value: []) => {
 export const getAdInfo = () => {
     return { type: GET_AD_INFO }
 }
-export const setAdInfo = (user: {}) => {
-    return { type: SET_AD_INFO, user }
+export const setAdInfo = (value: {}) => {
+    return { type: SET_AD_INFO, value }
 }
 export const setError = (value: Error) => {
     return { type: SET_ERROR, value }
