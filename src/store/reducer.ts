@@ -18,7 +18,7 @@ import {
     GET_ADVERTISER_OFFERS,
     GET_ADVERTISER_DEALS,
     GET_ADMIN_OFFERS,
-    SET_CITIES, SET_AD_INFO, SET_SOCIAL_NETWORKS
+    SET_CITIES, SET_AD_INFO, SET_SOCIAL_NETWORKS, GET_USER_INFO, SET_USER_INFO
 } from "./action-types";
 
 // @ts-ignore
@@ -30,7 +30,7 @@ const AppReducer: Reducer<IRootState, Action> = (state: IRootState , action: Act
         case AUTH_USER: {
             return {
                 ...state,
-                user: {},
+                user: {firstName: '', lastName: '', photo: ''},
                 loading: true,
                 error: false,
             }
@@ -46,7 +46,7 @@ const AppReducer: Reducer<IRootState, Action> = (state: IRootState , action: Act
         case REGISTER_USER: {
             return {
                 ...state,
-                user: {},
+                user: {firstName: '', lastName: '', photo: ''},
                 loading: true,
                 error: false,
             }
@@ -56,6 +56,21 @@ const AppReducer: Reducer<IRootState, Action> = (state: IRootState , action: Act
                 ...state,
                 loading: false,
                 error: false,
+            }
+        }
+        case GET_USER_INFO: {
+            return {
+                ...state,
+                loading: true,
+                error: false
+            }
+        }
+        case SET_USER_INFO: {
+            return {
+                ...state,
+                user: action.value,
+                loading: false,
+                error: false
             }
         }
 

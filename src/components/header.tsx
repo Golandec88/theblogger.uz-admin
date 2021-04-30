@@ -1,5 +1,5 @@
 import React, {Context, Dispatch, useContext} from "react";
-import { Button } from "antd";
+import {Avatar, Button} from "antd";
 import { Header } from "antd/lib/layout/layout";
 import {
     BellOutlined,
@@ -22,6 +22,9 @@ const AppHeader: React.FC<{Ctx: Context<any>, title: string, backButton?: boolea
     const layoutCtx: LayoutCtx = useContext(Ctx)
     const history = useHistory()
     const path = useLocation()
+    // @ts-ignore
+    const firstChar = localStorage.getItem('username') !== null ? localStorage.getItem('username').substr(0, 1) : "A"
+    const avatarColor = localStorage.getItem('user-is-admin') === 'true' ? '#9b59b6' : localStorage.getItem('user-role') === 'advertiser' ? '#ffad34' : '#109ffc'
 
     return (
         <Header className="app-header">
@@ -47,10 +50,12 @@ const AppHeader: React.FC<{Ctx: Context<any>, title: string, backButton?: boolea
                 )}
                 <h3 className="mb-0 mt-1 ml-3">{title}</h3>
                 <div className="spacer" />
+                <Avatar style={{backgroundColor: avatarColor}}>{firstChar}</Avatar>
                 <h5 className="user-info">
                     {localStorage.getItem('username') ? localStorage.getItem('username') : 'anonymous'}
                 </h5>
-                {Boolean(localStorage.getItem('user-is-admin')) ?
+
+                {localStorage.getItem('user-is-admin') === 'true' ?
                     <Button
                         size="large"
                         className="app-button btn-flat mr-3"

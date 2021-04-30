@@ -24,8 +24,6 @@ const OffersPage: React.FC = () => {
         dispatch(getAdvertiserOffers())
     }, [layoutCtx.reload])
 
-    useEffect(() => console.log(state), [state])
-
     const handleCardAction = (id: number | string, actionName: string) => {
         switch (actionName) {
             case 'send': {

@@ -6,6 +6,9 @@ export const AUTH_USER_SUCCESS = "AUTH_USER_SUCCESS"
 export const REGISTER_USER = "REGISTER_USER"
 export const REGISTER_USER_SUCCESS = "REGISTER_USER_SUCCESS"
 
+export const GET_USER_INFO = "GET_USER_INFO"
+export const SET_USER_INFO = "SET_USER_INFO"
+
 /************ *** Offers *** ************/
 
 export const GET_BLOGGER_OFFERS = "GET_BLOGGER_OFFERS"

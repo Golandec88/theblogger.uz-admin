@@ -2,8 +2,8 @@ import {all, call, fork, put, takeEvery} from 'redux-saga/effects'
 import {SagaIterator } from 'redux-saga';
 
 import request from '../../plugins/axios'
-import {authUserSuccess, registerUserSuccess, setError} from "../action-creators";
-import {AUTH_USER, REGISTER_USER} from "../action-types";
+import {authUserSuccess, registerUserSuccess, setError, setUserInfo} from "../action-creators";
+import {AUTH_USER, GET_USER_INFO, REGISTER_USER} from "../action-types";
 
 function* authUser(action: {form: {}}): SagaIterator {
     try {
@@ -24,6 +24,20 @@ function* authUser(action: {form: {}}): SagaIterator {
         yield put(setError(err));
     }
 }
+
+function* fetchUserInfo(): SagaIterator {
+    try {
+        const user = yield call(request, 'GET', 'user/profile')
+        yield put(setUserInfo({
+            firstName: user.first_name,
+            lastName: user.last_name,
+            photo: user.photo
+        }))
+    } catch (e) {
+        yield put(setError(e))
+    }
+}
+
 function* registerUser(action: {form: any}): SagaIterator {
     try {
         yield call(request, 'POST', 'register', {
@@ -45,6 +59,8 @@ function* AuthWatcher(): SagaIterator {
     yield takeEvery([AUTH_USER], authUser);
     // @ts-ignore
     yield takeEvery([REGISTER_USER], registerUser);
+    // @ts-ignore
+    yield takeEvery([GET_USER_INFO], fetchUserInfo)
 }
 
 export default function* AuthSaga() {

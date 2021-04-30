@@ -8,7 +8,11 @@ const initialState : IRootState = {
     cities: [],
     loading: false,
     error: false,
-    user: {},
+    user: {
+        firstName: '',
+        lastName: '',
+        photo: ''
+    },
     offers: {
         items: [],
         pagination: {}

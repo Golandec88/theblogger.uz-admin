@@ -12,7 +12,14 @@ import {
     GET_SOCIAL_NETWORKS,
     GET_ADVERTISER_DEALS,
     SET_OFFERS,
-    GET_ADVERTISER_OFFERS, GET_ADMIN_OFFERS, SET_DEALS, SET_PLATFORMS, SET_CITIES, SET_SOCIAL_NETWORKS, SET_AD_INFO,
+    GET_ADVERTISER_OFFERS,
+    GET_ADMIN_OFFERS,
+    SET_DEALS,
+    SET_PLATFORMS,
+    SET_CITIES,
+    SET_SOCIAL_NETWORKS,
+    SET_AD_INFO,
+    GET_USER_INFO, SET_USER_INFO,
 } from "./action-types";
 import {Error} from './types'
 
@@ -29,6 +36,12 @@ export const registerUser = (form: {}) => {
 }
 export const registerUserSuccess = () => {
     return { type: REGISTER_USER_SUCCESS }
+}
+export const getUserInfo = () => {
+    return { type: GET_USER_INFO }
+}
+export const setUserInfo = (value: {}) => {
+    return { type: SET_USER_INFO, value }
 }
 
 /************ *** Offers *** ************/

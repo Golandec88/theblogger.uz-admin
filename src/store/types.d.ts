@@ -11,7 +11,11 @@ export interface IRootState {
     offers: ResponseList,
     deals: ResponseList,
     platforms: ResponseList,
-    user: {}
+    user: {
+        firstName: string,
+        lastName: string,
+        photo: string
+    }
 }
 
 export type IteratorResult<T, TReturn = any> =
