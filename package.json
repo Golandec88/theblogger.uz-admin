@@ -1,5 +1,6 @@
 {
   "name": "theblogger.uz-admin",
+  "homepage": "http://92.53.105.194:5000/",
   "version": "1.0.0",
   "private": true,
   "scripts": {
