@@ -50,15 +50,15 @@ const AppHeader: React.FC<{Ctx: Context<any>, title: string, backButton?: boolea
                 )}
                 <h3 className="mb-0 mt-1 ml-3">{title}</h3>
                 <div className="spacer" />
-                <Avatar style={{backgroundColor: avatarColor}}>{firstChar}</Avatar>
                 <h5 className="user-info">
                     {localStorage.getItem('username') ? localStorage.getItem('username') : 'anonymous'}
                 </h5>
+                <Avatar style={{backgroundColor: avatarColor}}>{firstChar}</Avatar>
 
                 {localStorage.getItem('user-is-admin') === 'true' ?
                     <Button
                         size="large"
-                        className="app-button btn-flat mr-3"
+                        className="app-button btn-flat mr-3 ml-2"
                         type="primary"
                         style={{marginTop: 2}}
                         icon={<UserOutlined />}

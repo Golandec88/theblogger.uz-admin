@@ -11,21 +11,16 @@ interface IModalProps {
     onCancel?: () => void
 }
 
-const ModalCreator: ({title, content, okText, cancelText, onOk, onCancel}: IModalProps) => void = (
-    {title, content, okText, cancelText, onOk, onCancel} :IModalProps) => {
+const ModalCreator = (props : IModalProps) => {
     confirm({
-        title: title,
-        content: content,
-        okText: okText,
+        title: props.title,
+        content: props.content,
+        okText: props.okText,
         okType: 'primary',
-        cancelText: cancelText,
+        cancelText: props.cancelText,
         className: 'app-modal',
-        onOk() {onOk()},
-        onCancel() {
-
-            if (onCancel) {
-                onCancel()
-            }},
+        onOk() {props.onOk()},
+        onCancel() {if (props.onCancel) props.onCancel()},
     });
 }
 

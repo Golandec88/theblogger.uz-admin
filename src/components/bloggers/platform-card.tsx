@@ -12,7 +12,7 @@ const { Option } = Select
 
 type IProps = {
     data: {
-        id: number | string
+        id: number | string,
         title: string,
         url: string,
         text: string,
