@@ -2,8 +2,8 @@ import axios, {AxiosError, AxiosRequestConfig, AxiosResponse, Method} from 'axio
 
 import NotificationCreator from "./notification-creator";
 
-export default async function request(method: Method, url: string, data?: {}, params?: string ) : Promise<AxiosResponse | AxiosError> {
-    const parsedUrl = `http://92.53.105.194:88/api/${url}${params ? params : ""}`
+export default async function request(method: Method, url: string, data?: {}, params?: string ) : Promise<any> {
+    const parsedUrl = `http://theblogger.uz:88/api/${url}${params ? params : ""}`
 
     let config: AxiosRequestConfig = {
         method: method,

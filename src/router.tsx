@@ -52,32 +52,23 @@ const Routes:React.FC = () => {
                 <Route path='/' render={() => (
                     <DefaultLayout>
                         <Switch>
-                            <Route path='/blogger' render={() => (
-                                <Switch>
-                                    <Route path='/blogger/offers' component={BloggerOffersPage} />
-                                    <Route path='/blogger/platforms' component={BloggerPlatformsPage} />
-                                    <Route path='/blogger/platform/create' component={BloggerCreatePlatformPage}/>
-                                    <Route path='/blogger/deals' component={BloggerDealsPage} />
-                                    <Route path='/blogger'>
-                                        <Redirect to={{pathname: '/blogger/offers'}} />
-                                    </Route>
-                                </Switch>
-                            )} />
-                            <Route path='/advertiser' render={() => (
-                                <Switch>
-                                    <Route path='/advertiser/offers' component={AdvertiserOffersPage} />
-                                    <Route path='/advertiser/offer/create' component={AdvertiserOfferCreatePage} />
-                                    <Route path='/advertiser/offer/:id' component={AdvertiserOfferCreatePage} />
-                                    <Route path='/advertiser/search' component={AdvertiserSearchPage} />
-                                    <Route path='/advertiser/deals' component={AdvertiserDealsPage} />
-                                    <Route path='/advertiser'>
-                                        <Redirect to={{pathname: '/advertiser/offers'}} />
-                                    </Route>
-                                </Switch>
-                            )}/>
+                            <Route path='/blogger/offers' component={BloggerOffersPage} />
+                            <Route path='/blogger/platforms' component={BloggerPlatformsPage} />
+                            <Route path='/blogger/platform/create' component={BloggerCreatePlatformPage}/>
+                            <Route path='/blogger/deals' component={BloggerDealsPage} />
+                            <Route path='/blogger'>
+                                <Redirect to={{pathname: '/blogger/offers'}} />
+                            </Route>
+                            <Route path='/advertiser/offers' component={AdvertiserOffersPage} />
+                            <Route path='/advertiser/offer/create' component={AdvertiserOfferCreatePage} />
+                            <Route path='/advertiser/offer/:id' component={AdvertiserOfferCreatePage} />
+                            <Route path='/advertiser/search' component={AdvertiserSearchPage} />
+                            <Route path='/advertiser/deals' component={AdvertiserDealsPage} />
+                            <Route path='/advertiser'>
+                                <Redirect to={{pathname: '/advertiser/offers'}} />
+                            </Route>
                             <Route path='/settings' component={ProfilePage}/>
                             <Route path='/tools' component={ToolsPage}/>
-                            <Route path='/'><Redirect to={{pathname: '/error'}} /></Route>
                         </Switch>
                     </DefaultLayout>
                 )}>

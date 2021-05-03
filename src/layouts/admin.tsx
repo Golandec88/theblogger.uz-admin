@@ -114,9 +114,9 @@ const AdminLayout :React.FC<IProps> = ({children}) => {
                     </Ctx.Provider>
                 </Transition>
             </Content>
-            <Sider className={`app-notifications ${notificationsStatus}`}>
-                notifications
-            </Sider>
+            {/*<Sider className={`app-notifications ${notificationsStatus}`}>*/}
+            {/*    notifications*/}
+            {/*</Sider>*/}
             <Modal
                 className="app-modal"
                 visible={modalModel}

@@ -1,13 +1,12 @@
 import React, {Dispatch, JSXElementConstructor, ReactElement, useEffect, useState} from "react";
-import {Layout, Switch, Button, Modal, Form, Input} from "antd";
+import {Layout, Switch, Button, Modal} from "antd";
 import {LogoutOutlined, ToolOutlined, UserOutlined} from '@ant-design/icons';
 import {changeAntdTheme} from 'dynamic-antd-theme';
-import {Transition} from 'react-transition-group'
+import {useHistory} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 import logo from '../static/logo.png'
 import Menu from '../components/menu'
-import { useHistory } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {IRootState} from "../store/types";
 import request from "../plugins/axios";
 import {setError} from "../store/action-creators";
@@ -36,6 +35,13 @@ interface IProps {
     children: ReactElement<any, string | JSXElementConstructor<any>>
 }
 
+const changeRole = (switchRole: Dispatch<string>, setCheck: Dispatch<boolean>, localRole: string | null, location: string, historyPush: (locationName: string) => {}) => {
+    switchRole(localRole === 'advertiser' ? 'advertiser' : 'blogger')
+    changeAntdTheme(localRole === 'advertiser' ? '#ffad34' : '#109ffc')
+    setCheck(localRole === 'advertiser')
+    if(location.split('/')[1] !== localRole) historyPush(`/${localRole}`)
+}
+
 const DefaultLayout :React.FC<IProps> = ({children}) => {
     const [role, switchRole] = useState<string>('blogger')
     const [check, setCheck] = useState(false)
@@ -47,26 +53,9 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
     const history = useHistory()
     const dispatch = useDispatch()
 
-    const onChange = () => {
-        localStorage.setItem('user-role', localStorage.getItem('user-role') === 'advertiser' ? 'blogger' : 'advertiser')
-        switchRole(localStorage.getItem('user-role') === 'advertiser' ? 'advertiser' : 'blogger')
-        setCheck(localStorage.getItem('user-role') === 'advertiser')
-        changeAntdTheme(role === 'advertiser' ? '#ffad34' : '#109ffc');
-        if(history.location.pathname.split('/')[1] !== localStorage.getItem('user-role')) history.push(localStorage.getItem('user-role') === 'advertiser' ? '/advertiser' : '/blogger')
-    }
-
-    const logout = () => {
-        localStorage.removeItem('user-token')
-        dispatch(setError(false))
-        history.push('/login')
-    }
-
     useEffect(() => {
         if(!localStorage.getItem('user-role')) localStorage.setItem('user-role', 'blogger')
-        switchRole(localStorage.getItem('user-role') === 'advertiser' ? 'advertiser' : 'blogger')
-        setCheck(localStorage.getItem('user-role') === 'advertiser')
-        changeAntdTheme(role === 'advertiser' ? '#ffad34' : '#109ffc');
-        if(history.location.pathname.split('/')[1] !== localStorage.getItem('user-role')) history.push(localStorage.getItem('user-role') === 'advertiser' ? '/advertiser' : '/blogger')
+        changeRole(switchRole, setCheck, localStorage.getItem('user-role'), history.location.pathname, history.push)
     },[role])
 
     useEffect(() => {
@@ -75,13 +64,23 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
         }
     }, [state.error])
 
-    if(!localStorage.getItem('user-token')) {
+    const onChange = () => {
+        localStorage.setItem('user-role', localStorage.getItem('user-role') === 'advertiser' ? 'blogger' : 'advertiser')
+        changeRole(switchRole, setCheck, localStorage.getItem('user-role'), history.location.pathname, history.push)
+    }
+
+    const logout = () => {
+        localStorage.removeItem('user-token')
+        dispatch(setError(false))
         history.push('/login')
     }
+
+    if(!localStorage.getItem('user-token')) logout()
+
     changeAntdTheme(role === 'advertiser' ? '#ffad34' : '#109ffc');
 
     return (
-        <Layout className="app-layout-default h-100">
+        <Layout className="app-layout-default h-100" style={{background: "no-repeat url(https://picsum.photos/1920/1080?random)"}}>
             <Sider className={`app-menu theme-by-role-${role} ${burgerStatus}`} >
                 <div className="logo">
                     <svg className="bg">
@@ -135,21 +134,13 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
                 </section>
             </Sider>
             <Content className="app-content">
-                <Transition
-                    in={!!children}
-                    timeout={350}
-                    classNames="display"
-                    unmountOnExit
-                    appear
-                >
-                    <Ctx.Provider value={{burgerStatus, switchMenu, notificationsStatus, switchNotifications, reload, setReload}}>
-                        {children}
-                    </Ctx.Provider>
-                </Transition>
+                <Ctx.Provider value={{burgerStatus, switchMenu, notificationsStatus, switchNotifications, reload, setReload}}>
+                    {children}
+                </Ctx.Provider>
             </Content>
-            <Sider className={`app-notifications ${notificationsStatus}`}>
-                notifications
-            </Sider>
+            {/*<Sider className={`app-notifications ${notificationsStatus}`}>*/}
+            {/*    notifications*/}
+            {/*</Sider>*/}
             <Modal
                 className="app-modal"
                 visible={modalModel}
@@ -158,14 +149,13 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
                 cancelText="Выйти"
                 onOk={() => {
                     request('POST', 'token/refresh', {refresh_token: localStorage.getItem('user-refresh-token')})
-                        .then((res) => {
-                            //@ts-ignore
+                        .then(res => {
                             localStorage.setItem('user-token', res.token)
-                            //@ts-ignore
                             localStorage.setItem('user-refresh-token', res.refresh_token)
                             setReload(!reload)
                             setModalModel(false)
-                        })}}
+                        })}
+                }
                 onCancel={() => {
                     setModalModel(false)
                     logout()

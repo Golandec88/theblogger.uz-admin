@@ -3,10 +3,10 @@ import {LoginOutlined} from '@ant-design/icons'
 import {Button, Form, Input, Tabs} from 'antd'
 import {useDispatch, useSelector} from "react-redux";
 import {changeAntdTheme} from "dynamic-antd-theme";
+import MaskedInput from "antd-mask-input";
+import {useHistory} from 'react-router-dom';
 
 import {authUser} from "../store/action-creators";
-import MaskedInput from "antd-mask-input";
-import { useHistory } from 'react-router-dom';
 import request from "../plugins/axios";
 import NotificationCreator from "../plugins/notification-creator";
 import {IRootState} from "../store/types";
