@@ -1,12 +1,8 @@
 import React, {useEffect, useState} from "react";
-import Header from "../components/header";
 import {Avatar, Button, Col, Form, Input, Row, Upload} from "antd";
-import {CheckCircleFilled, LoadingOutlined, PlusOutlined, UploadOutlined} from "@ant-design/icons";
+import {CheckCircleFilled, LoadingOutlined, PlusOutlined} from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
-import AdminCtx from '../layouts/admin'
-import UserCtx from '../layouts/default'
 import NotificationCreator from "../plugins/notification-creator";
-import { UploadChangeParam, UploadFile } from "antd/lib/upload/interface";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserInfo} from "../store/action-creators";
 import {IRootState} from "../store/types";
@@ -185,7 +181,7 @@ const ProfilePage: React.FC = () => {
                     </Form.Item>
                 </Form>
             </div>
-            <p className="mt-3 ml-2">Что бы сменить пароль зайдите на страницу "<a href="/tools" onClick={(e) => {e.preventDefault(); history.push('tools')}}>Инструменты</a>"</p>
+            <p className="mt-3 ml-2">Что бы сменить пароль зайдите на страницу "<a href="/tools" onClick={(e) => {e.preventDefault(); history.push('tools')}}>Инструменты</a>", или на страницу авторизации</p>
         </>
     )
 }

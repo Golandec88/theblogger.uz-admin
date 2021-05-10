@@ -75,8 +75,6 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
         history.push('/login')
     }
 
-    if(!localStorage.getItem('user-token')) logout()
-
     changeAntdTheme(role === 'advertiser' ? '#ffad34' : '#109ffc');
 
     return (

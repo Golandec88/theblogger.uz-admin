@@ -39,7 +39,7 @@ const Routes:React.FC = () => {
                         <Route path='/error' component={ErrorPage} />
                     </EmptyLayout>
                 )}/>
-                <Route path='/admin' render={() => (
+                <Route path='/admin' render={() => localStorage.getItem('user-token') ? (
                     <AdminLayout>
                         <Switch>
                             <Route path='/admin/offers' component={AdminOffersPage} />
@@ -48,8 +48,8 @@ const Routes:React.FC = () => {
                             </Route>
                         </Switch>
                     </AdminLayout>
-                )}/>
-                <Route path='/' render={() => (
+                ) : <Redirect to={{pathname: '/login'}}/>}/>
+                <Route render={() => localStorage.getItem('user-token') ? (
                     <DefaultLayout>
                         <Switch>
                             <Route path='/blogger/offers' component={BloggerOffersPage} />
@@ -71,7 +71,7 @@ const Routes:React.FC = () => {
                             <Route path='/tools' component={ToolsPage}/>
                         </Switch>
                     </DefaultLayout>
-                )}>
+                ) : <Redirect to={{pathname: '/login'}} />}>
                 </Route>
             </Switch>
         </BrowserRouter>
