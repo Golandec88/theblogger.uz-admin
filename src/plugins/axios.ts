@@ -1,9 +1,10 @@
 import axios, {AxiosRequestConfig, Method} from 'axios';
+import env from "react-dotenv";
 
 import NotificationCreator from "./notification-creator";
 
 export default async function request(method: Method, url: string, data?: {}, params?: string ) : Promise<any> {
-    const parsedUrl = `http://api.theblogger.uz/api/${url}${params ? params : ""}`
+    const parsedUrl = `${env.API_URL}${url}${params ? params : ""}`
 
     let config: AxiosRequestConfig = {
         method: method,
