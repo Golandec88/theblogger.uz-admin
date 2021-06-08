@@ -4,6 +4,7 @@ import AuthSaga from "./sagas/auth";
 import OffersSaga from "./sagas/offers";
 import DealsSaga from "./sagas/deals";
 import PlatformsSaga from "./sagas/platforms";
+import UsersSaga from "./sagas/users";
 
 const RootSaga = function* () {
     yield all([
@@ -12,6 +13,7 @@ const RootSaga = function* () {
         fork(DealsSaga),
         fork(PlatformsSaga),
         fork(OthersSaga),
+        fork(UsersSaga)
     ]);
 }
 export default RootSaga

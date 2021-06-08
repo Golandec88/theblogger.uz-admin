@@ -24,10 +24,17 @@ export const GET_ADVERTISER_DEALS = "GET_ADVERTISER_DEALS"
 
 export const SET_DEALS = "SET_DEALS"
 
-/************ *** Blogger *** ************/
+/************ *** Platforms *** ************/
 
 export const GET_PLATFORMS = "GET_PLATFORMS"
 export const SET_PLATFORMS = "GET_PLATFORMS_SUCCESS"
+export const SEARCH_BLOGGER = "SEARCH_BLOGGER"
+export const SET_SEARCH_BLOGGER = "SET_SEARCH_BLOGGER"
+
+/************ *** Admin *** ************/
+
+export const GET_USERS = "GET_USERS"
+export const SET_USERS = "SET_USERS"
 
 /************ *** Other *** ************/
 

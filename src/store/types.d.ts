@@ -11,6 +11,7 @@ export interface IRootState {
     offers: ResponseList,
     deals: ResponseList,
     platforms: ResponseList,
+    users: ResponseList,
     user: {
         firstName: string,
         lastName: string,

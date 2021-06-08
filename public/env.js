@@ -1,3 +1,3 @@
 window.env = {
-  "API_URL": "http://api.theblogger.uz/api/"
+  "API_URL": "http://theblogger.uz:88/api/"
 };

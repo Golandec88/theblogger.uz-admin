@@ -19,7 +19,7 @@ import {
     SET_CITIES,
     SET_SOCIAL_NETWORKS,
     SET_AD_INFO,
-    GET_USER_INFO, SET_USER_INFO,
+    GET_USER_INFO, SET_USER_INFO, GET_USERS, SET_USERS, SET_SEARCH_BLOGGER, SEARCH_BLOGGER,
 } from "./action-types";
 import {Error} from './types'
 
@@ -71,13 +71,28 @@ export const setDeals = (value: {}) => {
     return { type: SET_DEALS, value }
 }
 
-/************ *** Blogger *** ************/
+/************ *** Platforms *** ************/
 
 export const getPlatforms = () => {
     return { type: GET_PLATFORMS }
 }
 export const setPlatforms = (value: {}) => {
     return { type: SET_PLATFORMS, value }
+}
+export const searchBlogger = (subs: boolean, city: number) => {
+    return { type: SEARCH_BLOGGER, subs, city }
+}
+export const setBloggersList = (value: {}) => {
+    return { type: SET_SEARCH_BLOGGER, value }
+}
+
+/************ *** Admin *** ************/
+
+export const getUsers = () => {
+    return { type: GET_USERS }
+}
+export const setUsers = (value: {}) => {
+    return { type: SET_USERS, value }
 }
 
 /************ *** Other *** ************/

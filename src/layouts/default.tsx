@@ -78,7 +78,7 @@ const DefaultLayout :React.FC<IProps> = ({children}) => {
     changeAntdTheme(role === 'advertiser' ? '#ffad34' : '#109ffc');
 
     return (
-        <Layout className="app-layout-default h-100" style={{background: "no-repeat url(https://picsum.photos/1920/1080?random)"}}>
+        <Layout className="app-layout-default h-100" style={{background: "no-repeat url(https://picsum.photos/1920/1080?random)", backgroundSize: 'cover'}}>
             <Sider className={`app-menu theme-by-role-${role} ${burgerStatus}`} >
                 <div className="logo">
                     <svg className="bg">

@@ -44,7 +44,6 @@ const OffersPage: React.FC = () => {
                             </div>}
                 </div>
             </section>
-            {/*<Pagination />*/}
         </>
     )
 }

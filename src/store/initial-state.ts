@@ -25,5 +25,9 @@ const initialState : IRootState = {
         items: [],
         pagination: {}
     },
+    users: {
+        items: [],
+        pagination: {}
+    },
 }
 export default initialState

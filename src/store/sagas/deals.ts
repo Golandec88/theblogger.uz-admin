@@ -11,7 +11,7 @@ function* fetchDealsList(action: {type: string}): SagaIterator {
 
         switch (action.type) {
             case GET_BLOGGER_DEALS: url = "blogger/deal"; break
-            case GET_ADVERTISER_DEALS: url = "advertiser/deal"; break
+            case GET_ADVERTISER_DEALS: url = "customer/deal"; break
         }
 
         const response = yield call(request, 'GET', url);

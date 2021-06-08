@@ -33,6 +33,7 @@ const AppMenu: React.FC<{mode: string}> = ({mode}) => {
             </>
             case 'admin': return <>
                 <Menu.Item onClick={() => history.push('/admin/offers')} key="/admin/offers" icon={<FormOutlined />}>Задания</Menu.Item>
+                <Menu.Item onClick={() => history.push('/admin/users')} key="/admin/users" icon={<UserOutlined />}>Пользователи</Menu.Item>
             </>
         }
     }

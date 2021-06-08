@@ -21,6 +21,7 @@ import AdvertiserSearchPage from "./pages/advertiser/search"
 import AdvertiserDealsPage from "./pages/advertiser/deals"
 
 import AdminOffersPage from "./pages/admin/offers"
+import UsersPage from "./pages/admin/users";
 import AdminLayout from "./layouts/admin";
 
 const Routes:React.FC = () => {
@@ -43,6 +44,7 @@ const Routes:React.FC = () => {
                     <AdminLayout>
                         <Switch>
                             <Route path='/admin/offers' component={AdminOffersPage} />
+                            <Route path='/admin/users' component={UsersPage} />
                             <Route path='/admin'>
                                 <Redirect to={{pathname: '/admin/offers'}} />
                             </Route>

@@ -13,7 +13,7 @@ function* fetchOffersList(action: {type: string}): SagaIterator {
 
         switch (action.type) {
             case GET_BLOGGER_OFFERS: url = "blogger/offer"; break
-            case GET_ADVERTISER_OFFERS: url = "advertiser/offer"; break
+            case GET_ADVERTISER_OFFERS: url = "customer/offer"; break
             case GET_ADMIN_OFFERS: url = "admin/offer/moderation"
         }
 
