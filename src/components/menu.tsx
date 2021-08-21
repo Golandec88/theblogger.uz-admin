@@ -11,10 +11,7 @@ const AppMenu: React.FC<{mode: string}> = ({mode}) => {
     const [activeMenu, setActiveMenu] = useState(history.location.pathname)
 
     useEffect(() => {
-        if(activeMenu !== path.pathname) {
-            const role = `/${!localStorage.getItem('user-is-admin') ? 'admin' : localStorage.getItem('user-role')}/offers`
-            setActiveMenu(role)
-        }
+        if(activeMenu !== path.pathname) setActiveMenu(path.pathname)
     }, [activeMenu, path])
 
     const getMenu = () => {

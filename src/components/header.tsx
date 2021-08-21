@@ -2,7 +2,6 @@ import React, {Context, Dispatch, useContext} from "react";
 import {Avatar, Button} from "antd";
 import { Header } from "antd/lib/layout/layout";
 import {
-    BellOutlined,
     LeftOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined, UserOutlined
@@ -72,16 +71,16 @@ const AppHeader: React.FC<{Ctx: Context<any>, title: string, backButton?: boolea
                     >
                         {path.pathname.split('/')[1] === 'admin' ? 'Режим пользователя' : 'Режим админа'}
                     </Button> : ""}
-                <Button
-                    size="large"
-                    onClick={() => layoutCtx.switchNotifications(layoutCtx.notificationsStatus === 'closed' || layoutCtx.notificationsStatus === undefined ? 'opened' : 'closed')}
-                    className="app-button btn-flat mt-1"
-                    icon={<BellOutlined style={{ fontSize: '150%'}} />}
-                >
-                    <span className="counter">
-                        1
-                    </span>
-                </Button>
+                {/*<Button*/}
+                {/*    size="large"*/}
+                {/*    onClick={() => layoutCtx.switchNotifications(layoutCtx.notificationsStatus === 'closed' || layoutCtx.notificationsStatus === undefined ? 'opened' : 'closed')}*/}
+                {/*    className="app-button btn-flat mt-1"*/}
+                {/*    icon={<BellOutlined style={{ fontSize: '150%'}} />}*/}
+                {/*>*/}
+                {/*    <span className="counter">*/}
+                {/*        1*/}
+                {/*    </span>*/}
+                {/*</Button>*/}
             </div>
         </Header>
     )

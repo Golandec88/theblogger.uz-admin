@@ -32,7 +32,7 @@ const PlatformCreatePage: React.FC = () => {
                         <p>Авторизация каждой площадки производится разными способами</p>
                         <hr/>
                         <Select size="large" defaultValue='telegram' className="app-select" style={{minWidth: 250}} onChange={val => {select(false); selectVal(val)}}>
-                            {socialNetworks.map((item: {title: string, description: string}) => (<Option value={item.title}>{item.description}</Option>))}
+                            {socialNetworks.map((item: {title: string, description: string}, index) => (<Option key={index} value={item.title}>{item.description}</Option>))}
                         </Select>
                         <Button onClick={() => select(true)} size="large" icon={<CheckCircleOutlined />} type="primary" className="app-button ml-4">
                             Авторизовать
