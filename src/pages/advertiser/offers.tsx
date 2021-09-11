@@ -96,7 +96,7 @@ const OffersPage: React.FC = () => {
                         className="app-button app-button-create --fixed-right --rounded"
                         size="large"
                         type="primary"
-                        onClick={() => history.push('offer/create')}
+                        onClick={() => history.push('offers/create')}
                         icon={<PlusOutlined/>}/>
                     : ""}
             </section>

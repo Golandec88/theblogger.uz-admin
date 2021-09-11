@@ -55,15 +55,15 @@ const Routes:React.FC = () => {
                     <DefaultLayout>
                         <Switch>
                             <Route path='/blogger/offers' component={BloggerOffersPage} />
-                            <Route path='/blogger/platforms' component={BloggerPlatformsPage} />
                             <Route path='/blogger/platforms/create' component={BloggerCreatePlatformPage}/>
+                            <Route path='/blogger/platforms' component={BloggerPlatformsPage} />
                             <Route path='/blogger/deals' component={BloggerDealsPage} />
                             <Route path='/blogger'>
                                 <Redirect to={{pathname: '/blogger/offers'}} />
                             </Route>
-                            <Route path='/advertiser/offers' component={AdvertiserOffersPage} />
                             <Route path='/advertiser/offers/create' component={AdvertiserOfferCreatePage} />
                             <Route path='/advertiser/offers/:id' component={AdvertiserOfferCreatePage} />
+                            <Route path='/advertiser/offers' component={AdvertiserOffersPage} />
                             <Route path='/advertiser/search' component={AdvertiserSearchPage} />
                             <Route path='/advertiser/deals' component={AdvertiserDealsPage} />
                             <Route path='/advertiser'>

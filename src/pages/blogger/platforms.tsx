@@ -4,7 +4,7 @@ import {Button} from "antd";
 import {PlusOutlined} from "@ant-design/icons";
 import {IRootState} from "../../store/types";
 import {useDispatch, useSelector} from "react-redux";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {getCities, getPlatforms} from "../../store/action-creators";
 import {Ctx} from "../../layouts/default";
 import PreLoader from "../../components/pre-loader";
@@ -18,8 +18,8 @@ const PlatformsPage: React.FC = () => {
     const layoutCtx: { reload: boolean, setReload: Dispatch<boolean> } = useContext(Ctx)
 
     useEffect(() => {
-       dispatch(getPlatforms());
-       dispatch(getCities())
+        dispatch(getPlatforms());
+        dispatch(getCities())
     }, [layoutCtx.reload])
 
     return (
@@ -27,18 +27,21 @@ const PlatformsPage: React.FC = () => {
             <Header Ctx={Ctx} title={"Мои площадки"}/>
             <section className="overflow-content">
                 <div style={{flexFlow: "wrap", alignItems: 'flex-start'}}>
-                    {state.loading ? <PreLoader /> :
+                    {state.loading ? <PreLoader/> :
                         state.platforms.items.length ?
-                            state.platforms.items.map((item: any) => <PlatformCard key={`key-#${item.id}`} data={item} cities={state.cities}/>) :
+                            state.platforms.items.map((item: any) => <PlatformCard key={`key-#${item.id}`} data={item}
+                                                                                   cities={state.cities}/>) :
                             (<div className="app-card">
                                 <h4>У вас не зарегестрированно площадок</h4>
-                                <p>Добавьте свои площадки из соц. сетей, для того чтобы принимать рекламные заявки от рекламодателей
+                                <p>Добавьте свои площадки из соц. сетей, для того чтобы принимать рекламные заявки от
+                                    рекламодателей
                                     и начать их монетизацию</p>
                                 <hr/>
                                 <div className="app-card-actions">
-                                    <Button onClick={() => history.push('/blogger/platform/create')} type="primary" className="app-button app-button-create show-text-on-hover mb-3"
+                                    <Button onClick={() => history.push('/blogger/platforms/create')} type="primary"
+                                            className="app-button app-button-create show-text-on-hover mb-3"
                                             size="large" icon={<PlusOutlined/>}>
-                                    <span className="app-button-text">Добавить площадку</span>
+                                        <span className="app-button-text">Добавить площадку</span>
                                     </Button>
                                 </div>
                             </div>)
@@ -49,7 +52,7 @@ const PlatformsPage: React.FC = () => {
                         className="app-button app-button-create --fixed-right --rounded"
                         size="large"
                         type="primary"
-                        onClick={() => history.push('/blogger/platform/create')}
+                        onClick={() => history.push('/blogger/platforms/create')}
                         icon={<PlusOutlined/>}/>
                     : ""}
             </section>
