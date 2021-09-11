@@ -67,7 +67,7 @@ const JobCreatePage: React.FC = () => {
         }
     }
     const sendForm = () => {
-        const url = id ? 'advertiser/offer/' + id : 'advertiser/offer'
+        const url = id ? 'customer/offer/' + id : 'customer/offer'
 
         request(id ? 'PUT' : 'POST', url, form)
             .then(() => {
@@ -81,7 +81,7 @@ const JobCreatePage: React.FC = () => {
         dispatch(getSocialNetworks())
         if(id) {
             setLoading(true)
-            request('GET', 'advertiser/offer/' + id)
+            request('GET', 'customer/offer/' + id)
                 .then(res => {
                     setLoading(false)
                     valForm.setFieldsValue({
